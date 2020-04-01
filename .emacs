@@ -17,6 +17,9 @@
 (setq inhibit-startup-message t)
 ;; (setq inhibit-splash-screen t)
 
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+
 ;; (global-unset-key "\C-o" )
 (setq visible-bell t)
 ;;; When in Text mode, want to be in Auto-Fill mode.
