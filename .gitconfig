@@ -1,0 +1,6 @@
+[user]
+	email = azumade.30@gmail.com
+	name = taichiH
+[url "git@github.com:"]
+        InsteadOf = https://github.com
+        
