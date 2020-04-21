@@ -84,61 +84,21 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias grep='grep --exclude-dir=.svn'
 
-export SSH_USER=higashide
-export SVN_SSH="ssh -l ${SSH_USER}"
-
 if [ "$(which hub)" != "" ]; then
     $(hub alias -s)
 fi
-export ROSCONSOLE_FORMAT='[${severity}] [${time}] [${node}:${logger}]: ${message}'
+export ROSCONSOLE_FORMAT='[${severity}] [${node}] [${function}] [${line}] [${time}]:${message}'
 
 source `catkin locate --shell-verbs`
 
-function rossethsr {
+function rossetrobot {
     export ROS_HOSTNAME=$(hostname -I | awk '{print$1}')
     export ROS_IP=$ROS_HOSTNAME
-    export ROS_MASTER_URI=http://172.18.0.2:11311
+    export ROS_MASTER_URI=http://localhost:11311
 }
 
-function rossetaero {
-    export ROS_HOSTNAME=$(hostname -I | awk '{print$1}')
-    export ROS_IP=$ROS_HOSTNAME
-    export ROS_MASTER_URI=http://192.168.10.52:11311
-    # rossetip
-}
-
-function getRarm() {
-    js=$(rostopic echo -n 1 /joint_states | grep "position")
-    s_r=$(echo $js | cut -d[ -f2 | cut -d, -f24)
-    s_p=$(echo $js | cut -d[ -f2 | cut -d, -f23)
-    s_y=$(echo $js | cut -d[ -f2 | cut -d, -f25)
-    e=$(echo $js | grep "position" | cut -d[ -f2 | cut -d, -f18)
-    echo "0,0,positionHand,_object_name:,_arm:rarm,_grasp_type:front_grasp,_shoulder_r:${s_r},_shoulder_p:${s_p},_shoulder_y:${s_y},_elbow:${e},_ref_score:0.0"
-}
-
-function getLarm() {
-    js=$(rostopic echo -n 1 /joint_states | grep "position")
-    s_r=$(echo $js | cut -d[ -f2 | cut -d, -f9)
-    s_p=$(echo $js | cut -d[ -f2 | cut -d, -f8)
-    s_y=$(echo $js | cut -d[ -f2 | cut -d, -f10)
-    e=$(echo $js | grep "position" | cut -d[ -f2 | cut -d, -f3)
-    echo "0,0,positionHand,_object_name:,_arm:larm,_grasp_type:front_grasp,_shoulder_r:${s_r},_shoulder_p:${s_p},_shoulder_y:${s_y},_elbow:${e},_ref_score:0.0"
-}
-
-function getRarmWrist() {
-    js=$(rostopic echo -n 1 /joint_states | grep "position")
-    one=$(echo $js | cut -d[ -f2 | cut -d, -f29)
-    two=$(echo $js | cut -d[ -f2 | cut -d, -f28)
-    three=$(echo $js | cut -d[ -f2 | cut -d, -f19)
-    echo "0,0,switchGrasp,_arm:rarm,_grasp_type:,_tool_root:${one},_tool_middle:${two},_tool_end:${three}"
-}
-
-function getLarmWrist() {
-    js=$(rostopic echo -n 1 /joint_states | grep "position")
-    one=$(echo $js | cut -d[ -f2 | cut -d, -f14)
-    two=$(echo $js | cut -d[ -f2 | cut -d, -f13)
-    three=$(echo $js | cut -d[ -f2 | cut -d, -f4)
-    echo "0,0,switchGrasp,_arm:larm,_grasp_type:,_tool_root:${one},_tool_middle:${two},_tool_end:${three}"
+function ros-params-get () {
+    array=(`rosparam list | ag $1 | xargs`); for i in "${array[@]}"; do echo "${i}: " `rosparam get "${i}"`; done
 }
 
 export PYTHONPATH=/usr/lib:$PYTHONPATH
