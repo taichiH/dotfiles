@@ -106,6 +106,25 @@ function ros-topics-info () {
     array=(`rostopic list | ag $1 | xargs`); for i in "${array[@]}"; do echo "${i}: [`rostopic info ${i} | ag type`]"; done
 }
 
+function ros-typed-topic () {
+    if [ $2 ]; then
+        echo "search topics include string: $2"
+        array=(`rostopic list | ag $2 | xargs`)
+    else
+        echo "search all topics"
+        array=(`rostopic list | xargs`)
+    fi
+    echo "---"
+    topic_type=$1
+    for i in "${array[@]}"
+    do
+        if [ "`rostopic info ${i} | ag type | ag $topic_type`" ]
+        then
+            echo "${i} [`rostopic info ${i} | ag type`]"
+        fi
+    done
+}
+
 export PYTHONPATH=/usr/lib:$PYTHONPATH
 source /opt/ros/kinetic/setup.bash
 source ${HOME}/ros/kinetic/devel/setup.bash
