@@ -125,6 +125,24 @@ function ros-typed-topic () {
     done
 }
 
+function process-cpu-usage () {
+    array=(`ps aux | ag $1 | xargs`);
+    pidstat -p ${array[1]} 1
+}
+
+function colconcd () {
+    prefix=${1%/}
+    if [ $prefix ]; then
+        path=`roscd ${prefix} && pwd`
+        str=`cat $path/cmake/${prefix}Config.cmake | grep src | xargs`
+        arr=(${str// / })
+        cd ${arr[1]%")"}
+    else
+        roscd ${prefix}
+    fi
+}
+complete -F "_roscomplete_sub_dir" -o "nospace" "colconcd"
+
 export PYTHONPATH=/usr/lib:$PYTHONPATH
 source /opt/ros/kinetic/setup.bash
 source ${HOME}/ros/kinetic/devel/setup.bash
