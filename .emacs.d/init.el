@@ -10,8 +10,6 @@
 ;; You may delete these explanatory comments.
 
 (require 'package)
-(require 'replace-match-string-symbols)
-
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa" . "http://melpa.org/packages/")
@@ -357,8 +355,8 @@ This function also returns nil meaning don't specify the indentation."
 (define-key company-search-map (kbd "C-p") 'company-select-previous)
 (define-key company-active-map (kbd "C-s") 'company-filter-candidates) ;; C-sで絞り込む
 (define-key company-active-map (kbd "C-i") 'company-complete-selection) ;; TABで候補を設定
+;; (define-key comp any-active-map (kbd "C-f") 'company-complete-selection) ;; C-fで候補を設定
 (define-key company-active-map [tab] 'company-complete-selection) ;; TABで候補を設定
-(define-key comp any-active-map (kbd "C-f") 'company-complete-selection) ;; C-fで候補を設定
 (define-key emacs-lisp-mode-map (kbd "C-M-i") 'company-complete) ;; 各種メジャーモードでも C-M-iで company-modeの補完を使う
 
 (require 'symbol-overlay)
@@ -367,7 +365,7 @@ This function also returns nil meaning don't specify the indentation."
 (global-set-key (kbd "M-i") 'symbol-overlay-put)
 (define-key symbol-overlay-map (kbd "p") 'symbol-overlay-jump-prev) ;; 次のシンボルへ
 (define-key symbol-overlay-map (kbd "n") 'symbol-overlay-jump-next) ;; 前のシンボルへ
-(define-key symbol-overlay-map (kbd "r") 'symbol-overlay-renama)
+(define-key symbol-overlay-map (kbd "r") 'symbol-overlay-rename)
 (define-key symbol-overlay-map (kbd "q") 'symbol-overlay-query-replace)
 (define-key symbol-overlay-map (kbd "C-g") 'symbol-overlay-remove-all)
 
