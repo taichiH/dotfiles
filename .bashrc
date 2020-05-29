@@ -116,12 +116,13 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# export CUDA_PATH="/usr/local/cuda/bin:$PATH"
+export EDITOR=emacs
+
+# export CUDA_PATH="/usr/local/cuda-10.2/bin:$PATH"
 # export PATH=$CUDA_PATH/bin:$PATH
 # export CPATH=$CUDA_PATH/include:$CPATH
 # export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$LD_LIBRARY_PATH
-
-source `catkin locate --shell-verbs`
+# export C_INCLUDE_PATH=$CUDA_PATH/include:$C_INCLUDE_PATH
 
 function ros-params-get () {
     array=(`rosparam list | ag $1 | xargs`); for i in "${array[@]}"; do echo "${i}: " `rosparam get "${i}"`; done
@@ -159,43 +160,50 @@ function process-cpu-usage () {
     pidstat -p ${array[1]} 1
 }
 
-export PATH="/snap/bin:$PATH"
-export PATH="/usr/local/cuda-10.2/bin:$PATH"
-export LD_LIBRARY_PATH="/usr/local/cuda-10.2/lib64:$LD_LIBRARY_PATH"
-
-export ROSCONSOLE_FORMAT='[${severity}] [${node}] [${function}] [${line}] [${time}]:${message}'
-
-source /opt/ros/melodic/setup.bash
-COLCON_ROOT=/home/taichi/autoware-proj/autoware.proj
-source $COLCON_ROOT/install/setup.bash
-
-function colcd () {
-    local prefix path str arr
-    prefix=${1%/}
-    if [ $prefix ]; then
-        path=`roscd ${prefix} && pwd`
-        str=`cat $path/cmake/${prefix}Config.cmake | grep src | xargs`
-        arr=(${str// / })
-        cd ${arr[1]%")"}
+function cl () {
+    if [ $1 = "b" ]; then
+        local path
+        path=`pwd`
+        if [ $2 ]; then
+            cd $COLCON_ROOT
+            colcon build --packages-select ${2%/}
+            cd $path
+        else
+            cd $COLCON_ROOT
+            colcon $COLCON_ROOT/build
+            cd $path
+        fi
+    elif  [ $1 == "cd" ]; then
+        local prefix path str arr
+        prefix=${2%/}
+        if [ $prefix ]; then
+            path=`roscd ${prefix} && pwd`
+            str=`cat $path/cmake/${prefix}Config.cmake | grep src | xargs`
+            arr=(${str// / })
+            cd ${arr[1]%")"}
+        else
+            cd $COLCON_ROOT
+        fi
     else
-        cd $COLCON_ROOT
+        echo "b or cd"
     fi
 }
 
-function colcon-b () {
-    local path
-    path=`pwd`
-    if [ $1 ]; then
-        cd $COLCON_ROOT
-        colcon build --packages-select ${1%/}
-        cd $path
-    else
-        cd $COLCON_ROOT
-        colcon $COLCON_ROOT/build
-        cd $path
-    fi
+function ros1-mode () {
+    export ROSCONSOLE_FORMAT='[${severity}] [${node}] [${function}] [${line}] [${time}]:${message}'
+    source `catkin locate --shell-verbs`
+    source /opt/ros/melodic/setup.bash
+    COLCON_ROOT=/home/taichi/autoware-proj/autoware.proj
+    source $COLCON_ROOT/install/setup.bash
+    source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+    complete -F "_roscomplete_sub_dir" -o "nospace" "cl"
 }
 
-complete -F "_roscomplete_sub_dir" -o "nospace" "colcd"
-complete -F "_roscomplete_sub_dir" -o "nospace" "colcon-b"
-rossetip
+function ros2-mode () {
+    source /opt/ros/dashing/setup.bash
+    source ~/autoware-auto/AutowareAuto/install/setup.bash
+}
+
+ros1-mode
+# ros2-mode
+

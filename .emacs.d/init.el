@@ -17,6 +17,21 @@
 (package-initialize)
 
 (add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
+
+(setq-default c-basic-offset 2
+              tab-width 2
+              indent-tabs-mode t)
+(c-add-style "microsoft"
+             '("stroustrup"
+               (c-offsets-alist
+                (innamespace . -)
+                (inline-open . 0)
+                (inher-cont . c-lineup-multi-inher)
+                (arglist-cont-nonempty . +)
+                (template-args-cont . +))))
+(setq c-default-style "microsoft")
 
 ;;; Global Setting Key
 ;;;
@@ -338,7 +353,7 @@ This function also returns nil meaning don't specify the indentation."
  '(custom-enabled-themes (quote (tango-dark)))
  '(package-selected-packages
    (quote
-    (multiple-cursors counsel dumb-jump neotree symbol-overlay company gnu-elpa-keyring-update ##))))
+    (flycheck multiple-cursors counsel dumb-jump neotree symbol-overlay company gnu-elpa-keyring-update ##))))
 
 (require 'company)
 (global-company-mode) ; 全バッファで有効にする
@@ -374,3 +389,4 @@ This function also returns nil meaning don't specify the indentation."
 (setq neo-smart-open t) ;; neotree ウィンドウを表示する毎に current file のあるディレクトリを表示する
 (setq neo-smart-open t)
 (global-set-key "\C-u" 'neotree-toggle)
+
