@@ -355,6 +355,9 @@ This function also returns nil meaning don't specify the indentation."
    (quote
     (flycheck multiple-cursors counsel dumb-jump neotree symbol-overlay company gnu-elpa-keyring-update ##))))
 
+(unless (package-installed-p 'company)
+  (package-refresh-contents)
+  (package-install 'company))
 (require 'company)
 (global-company-mode) ; 全バッファで有効にする
 (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
@@ -374,6 +377,9 @@ This function also returns nil meaning don't specify the indentation."
 (define-key company-active-map [tab] 'company-complete-selection) ;; TABで候補を設定
 (define-key emacs-lisp-mode-map (kbd "C-M-i") 'company-complete) ;; 各種メジャーモードでも C-M-iで company-modeの補完を使う
 
+(unless (package-installed-p 'symbol-overlay)
+  (package-refresh-contents)
+  (package-install 'symbol-overlay))
 (require 'symbol-overlay)
 (add-hook 'prog-mode-hook #'symbol-overlay-mode)
 (add-hook 'markdown-mode-hook #'symbol-overlay-mode)
