@@ -353,7 +353,7 @@ This function also returns nil meaning don't specify the indentation."
  '(custom-enabled-themes (quote (tango-dark)))
  '(package-selected-packages
    (quote
-    (flycheck multiple-cursors counsel dumb-jump neotree symbol-overlay company gnu-elpa-keyring-update ##))))
+    (yaml-mode flycheck multiple-cursors counsel dumb-jump neotree symbol-overlay company gnu-elpa-keyring-update ##))))
 
 (unless (package-installed-p 'company)
   (package-refresh-contents)
