@@ -56,3 +56,13 @@ function cl () {
 complete -F "_roscomplete_sub_dir" -o "nospace" "cl"
 source /usr/share/colcon_cd/function/colcon_cd.sh 
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+export PATH
+eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+
+if [ -n "$ZSH_VERSION" ]; then
+    eval "$(_ADE_COMPLETE=source_zsh ade)"
+else
+    eval "$(_ADE_COMPLETE=source ade)"
+fi
