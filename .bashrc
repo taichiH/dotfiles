@@ -73,12 +73,6 @@ source ~/dotfiles/bash_custom/vcs.bash
 source ~/dotfiles/bash_custom/ros.bash
 source ~/dotfiles/bash_custom/util.bash
 
-# export CUDA_PATH="/usr/local/cuda-10.2/bin:$PATH"
-# export PATH=$CUDA_PATH/bin:$PATH
-# export CPATH=$CUDA_PATH/include:$CPATH
-# export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$LD_LIBRARY_PATH
-# export C_INCLUDE_PATH=$CUDA_PATH/include:$C_INCLUDE_PATH
-
 function ros1-mode () {
     source /opt/ros/melodic/setup.bash
     COLCON_ROOT=/home/taichi/autoware-proj/autoware.proj.eva
@@ -92,6 +86,16 @@ function ros2-mode () {
     source ~/autoware-auto/AutowareAuto/install/setup.bash
 }
 
+function tvm-mode () {
+    export TVM_HOME=/home/taichi/tvm/tvm
+    export PYTHONPATH=$TVM_HOME/python:$TVM_HOME/topi/python:${PYTHONPATH}
+}
+
 ros1-mode
 # ros2-mode
 
+export PATH="/usr/local/cuda/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
+# export PATH=$CUDA_PATH/bin:$PATH
+# export CPATH=$CUDA_PATH/include:$CPATH
+# export C_INCLUDE_PATH=$CUDA_PATH/include:$C_INCLUDE_PATH

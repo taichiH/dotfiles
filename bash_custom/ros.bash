@@ -31,7 +31,7 @@ function cl () {
         path=`pwd`
         if [ $2 ]; then
             cd $COLCON_ROOT
-            colcon build --packages-select ${2%/}
+            colcon build --packages-up-to ${2%/}
             cd $path
         else
             cd $COLCON_ROOT
@@ -54,15 +54,15 @@ function cl () {
     fi
 }
 complete -F "_roscomplete_sub_dir" -o "nospace" "cl"
-source /usr/share/colcon_cd/function/colcon_cd.sh 
+source /usr/share/colcon_cd/function/colcon_cd.sh
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
 
-PATH=$PATH:$HOME/.local/bin:$HOME/bin
-export PATH
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+# PATH=$PATH:$HOME/.local/bin:$HOME/bin
+# export PATH
+# eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
-if [ -n "$ZSH_VERSION" ]; then
-    eval "$(_ADE_COMPLETE=source_zsh ade)"
-else
-    eval "$(_ADE_COMPLETE=source ade)"
-fi
+# if [ -n "$ZSH_VERSION" ]; then
+#     eval "$(_ADE_COMPLETE=source_zsh ade)"
+# else
+#     eval "$(_ADE_COMPLETE=source ade)"
+# fi
