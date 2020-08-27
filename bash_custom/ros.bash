@@ -1,9 +1,9 @@
 function ros-params-get () {
-    array=(`rosparam list | ag $1 | xargs`); for i in "${array[@]}"; do echo "${i}: " `rosparam get "${i}"`; done
+    for i in `rosparam list | ag $1 | xargs`; do echo "${i}: " `rosparam get "${i}"`; done
 }
 
 function ros-topics-info () {
-    array=(`rostopic list | ag $1 | xargs`); for i in "${array[@]}"; do echo "${i}: [`rostopic info ${i} | ag type`]"; done
+    for i in `rostopic list | ag $1 | xargs`; do echo "${i}: [`rostopic info ${i} | ag type`]"; done
 }
 
 function ros-typed-topic () {
