@@ -35,7 +35,7 @@ function cl () {
             cd $path
         else
             cd $COLCON_ROOT
-            colcon $COLCON_ROOT/build
+            colcon build
             cd $path
         fi
     elif  [ $1 == "cd" ]; then

@@ -75,7 +75,6 @@ source ~/dotfiles/bash_custom/util.bash
 
 function ros1-mode () {
     source /opt/ros/melodic/setup.bash
-    COLCON_ROOT=/home/taichi/autoware-proj/autoware.proj.eva
     source $COLCON_ROOT/install/setup.bash
     source `catkin locate --shell-verbs`
     export ROSCONSOLE_FORMAT='[${severity}] [${node}] [${function}] [${line}] [${time}]:${message}'
@@ -87,7 +86,7 @@ function ros2-mode () {
 }
 
 function tvm-mode () {
-    export TVM_HOME=/home/taichi/tvm/tvm
+    export TVM_HOME=${HOME}/tvm/tvm
     export PYTHONPATH=$TVM_HOME/python:$TVM_HOME/topi/python:${PYTHONPATH}
 }
 
