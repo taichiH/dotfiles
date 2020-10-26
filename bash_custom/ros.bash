@@ -37,7 +37,6 @@ function cl () {
             cd $COLCON_ROOT
             colcon $COLCON_ROOT
             colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --catkin-skip-building-tests --symlink-instal
-            ll
             cd $path
         fi
     elif  [ $1 == "cd" ]; then

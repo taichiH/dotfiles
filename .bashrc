@@ -87,7 +87,7 @@ function ros2-mode () {
 }
 
 function tvm-mode () {
-    export TVM_HOME=/home/taichi/tvm/tvm
+    export TVM_HOME=${HOME}/tvm/tvm
     export PYTHONPATH=$TVM_HOME/python:$TVM_HOME/topi/python:${PYTHONPATH}
 }
 
