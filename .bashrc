@@ -75,7 +75,7 @@ source ~/dotfiles/bash_custom/util.bash
 
 function ros1-mode () {
     source /opt/ros/melodic/setup.bash
-    COLCON_ROOT=/home/taichi/autoware-proj/autoware.proj.eva
+    COLCON_ROOT=$HOME/autoware-proj/autoware.proj
     source $COLCON_ROOT/install/setup.bash
     source `catkin locate --shell-verbs`
     export ROSCONSOLE_FORMAT='[${severity}] [${node}] [${function}] [${line}] [${time}]:${message}'
@@ -94,8 +94,25 @@ function tvm-mode () {
 ros1-mode
 # ros2-mode
 
+export PATH=~/.local/bin:$PATH
+
 export PATH="/usr/local/cuda/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
+
 # export PATH=$CUDA_PATH/bin:$PATH
 # export CPATH=$CUDA_PATH/include:$CPATH
 # export C_INCLUDE_PATH=$CUDA_PATH/include:$C_INCLUDE_PATH
+
+export LIVOX_FRONT_CENTER_ID=1HDDH1200100411
+export LIVOX_FRONT_LEFT_ID=1HDDH1200106071
+export LIVOX_FRONT_RIGHT_ID=1HDDH1200101671
+
+# export VEHICLE_ID=P_EVAGC_CANDIDATE1
+
+function clang-format-dir () {
+    find . -name '*.h' -or -name '*.hpp' -or -name '*.cpp' | xargs clang-format-6.0 -i -style=file $1
+}
+function clang-format-file () {
+    clang-format-6.0 -i -style=file $1
+}
+export DISPLAY="${DISPLAY:-:0}"

@@ -353,7 +353,7 @@ This function also returns nil meaning don't specify the indentation."
  '(custom-enabled-themes (quote (tango-dark)))
  '(package-selected-packages
    (quote
-    (yaml-mode flycheck multiple-cursors counsel dumb-jump neotree symbol-overlay company gnu-elpa-keyring-update ##))))
+    (mark-multiple yaml-mode flycheck multiple-cursors counsel dumb-jump neotree symbol-overlay company gnu-elpa-keyring-update ##))))
 
 (unless (package-installed-p 'company)
   (package-refresh-contents)
@@ -396,3 +396,39 @@ This function also returns nil meaning don't specify the indentation."
 (setq neo-smart-open t)
 (global-set-key "\C-u" 'neotree-toggle)
 
+(add-to-list 'load-path "/opt/ros/melodic/share/emacs/site-lisp")
+;; or whatever your install space is + "/share/emacs/site-lisp"
+(require 'rosemacs-config)
+
+;; (unless (package-installed-p 'multiple-cursors)
+;;   (package-refresh-contents)
+;;   (package-install 'multiple-cursors))
+;; (unless (package-installed-p 'mc-extras)
+;;   (package-refresh-contents)
+;;   (package-install 'mc-extras))
+;; (unless (package-installed-p 'region-bindings-mode)
+;;   (package-refresh-contents)
+;;   (package-install 'region-bindings-mode))
+;; (require 'multiple-cursors)
+;; (require 'mc-extras)
+;; (require 'region-bindings-mode)
+;; (region-bindings-mode-enable)
+;; (define-key region-bindings-mode-map (kbd "a") 'mc/mark-all-like-this-dwim)
+;; (define-key region-bindings-mode-map (kbd "p") 'mc/mark-previous-like-this)
+;; (define-key region-bindings-mode-map (kbd "n") 'mc/mark-next-like-this)
+;; (define-key region-bindings-mode-map (kbd "u") 'mc/remove-current-cursor)
+;; (define-key region-bindings-mode-map (kbd "<tab>") 'mc/cycle-forward)
+;; (define-key region-bindings-mode-map (kbd "<backtab>") 'mc/cycle-backward)
+;; ;; (define-key region-bindings-mode-map (kbd "C-;") 'multiple-cursors-mode)))
+;; ;; (global-set-key (kbd "C-;") 'mc/mark-all-dwim)
+
+(defun run-ros-clang-format ()
+  "Runs clang-format on cpp,h files in catkin_ws/ and reverts buffer."
+  (interactive)
+  (and
+   (string-match "/home/taichi/autoware-proj/autoware.proj.eva/.*\\.\\(h\\|cpp\\)$" buffer-file-name)
+   (save-some-buffers 'no-confirm)
+   (shell-command (concat "clang-format-3.9 -style=file -i " buffer-file-name))
+   (message (concat "Saved and ran clang-format on " buffer-file-name))
+   (revert-buffer t t t)
+))
