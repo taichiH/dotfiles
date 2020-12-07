@@ -31,11 +31,12 @@ function cl () {
         path=`pwd`
         if [ $2 ]; then
             cd $COLCON_ROOT
+            source /opt/ros/${ROS_DISTRO}/setup.bash
             colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --catkin-skip-building-tests --symlink-instal --packages-up-to ${2%/}
             cd $path
         else
             cd $COLCON_ROOT
-            colcon $COLCON_ROOT
+            source /opt/ros/${ROS_DISTRO}/setup.bash
             colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --catkin-skip-building-tests --symlink-instal
             cd $path
         fi

@@ -398,7 +398,7 @@ This function also returns nil meaning don't specify the indentation."
 
 (add-to-list 'load-path "/opt/ros/melodic/share/emacs/site-lisp")
 ;; or whatever your install space is + "/share/emacs/site-lisp"
-(require 'rosemacs-config)
+;; (require 'rosemacs-config)
 
 ;; (unless (package-installed-p 'multiple-cursors)
 ;;   (package-refresh-contents)
