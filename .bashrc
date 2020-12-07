@@ -5,8 +5,8 @@ esac
 
 HISTCONTROL=ignoreboth
 shopt -s histappend
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=100000
+HISTFILESIZE=200000
 shopt -s checkwinsize
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -72,6 +72,7 @@ fi
 source ~/dotfiles/bash_custom/vcs.bash
 source ~/dotfiles/bash_custom/ros.bash
 source ~/dotfiles/bash_custom/util.bash
+source ~/dotfiles/.local.bash
 
 function colcon-source {
     source $COLCON_ROOT/install/setup.bash
@@ -107,16 +108,3 @@ ros1-mode
 export PATH=~/.local/bin:$PATH
 export PATH="/usr/local/cuda/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
-
-# export PATH=$CUDA_PATH/bin:$PATH
-# export CPATH=$CUDA_PATH/include:$CPATH
-# export C_INCLUDE_PATH=$CUDA_PATH/include:$C_INCLUDE_PATH
-
-export LIVOX_FRONT_CENTER_ID=1HDDH1200100411
-export LIVOX_FRONT_LEFT_ID=1HDDH1200106071
-export LIVOX_FRONT_RIGHT_ID=1HDDH1200101671
-
-# export VEHICLE_ID=P_EVAGC_CANDIDATE1
-# export VEHICLE_ID=yea_GCpre001
-# export VEHICLE_ID=1089
-# export VEHICLE_ID=4941
