@@ -1,3 +1,10 @@
+function _colcon-source_complete()
+{
+  local cur prev
+  _get_comp_words_by_ref -n : cur prev
+  COMPREPLY=( $(compgen -W "${WORKSPACES}" -- "${cur}") )
+}
+
 function ros-params-get () {
     for i in `rosparam list | ag $1 | xargs`; do echo "${i}: " `rosparam get "${i}"`; done
 }
@@ -35,6 +42,7 @@ function colcon-source () {
     unset COLCON_PREFIX_PATH
     source $COLCON_ROOT/install/setup.bash
 }
+complete -F _colcon-source_complete colcon-source
 
 function cl () {
     if [ $# != 1 ]; then
