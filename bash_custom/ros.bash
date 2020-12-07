@@ -25,18 +25,36 @@ function ros-typed-topic () {
     done
 }
 
+function colcon-source () {
+    if [ $# != 1 ]; then
+        set-root
+        return 1
+    else
+        set-root $1
+    fi
+    unset COLCON_PREFIX_PATH
+    source $COLCON_ROOT/install/setup.bash
+}
+
 function cl () {
-    if [ $1 = "b" ]; then
+    if [ $# != 1 ]; then
+        export COLCON_ROOT=${HOME}/autoware-proj/autoware.proj
+        return 1
+    fi
+
+    if [ $1 == "b" ]; then
         local path
         path=`pwd`
         if [ $2 ]; then
             cd $COLCON_ROOT
             source /opt/ros/${ROS_DISTRO}/setup.bash
+            unset COLCON_PREFIX_PATH
             colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --catkin-skip-building-tests --symlink-instal --packages-up-to ${2%/}
             cd $path
         else
             cd $COLCON_ROOT
             source /opt/ros/${ROS_DISTRO}/setup.bash
+            unset COLCON_PREFIX_PATH
             colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --catkin-skip-building-tests --symlink-instal
             cd $path
         fi
@@ -52,7 +70,7 @@ function cl () {
             cd $COLCON_ROOT
         fi
     else
-        echo "b or cd"
+        echo "please set argument from \"[ b, cd ]\""
     fi
 }
 complete -F "_roscomplete_sub_dir" -o "nospace" "cl"

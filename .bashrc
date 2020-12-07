@@ -74,13 +74,9 @@ source ~/dotfiles/bash_custom/ros.bash
 source ~/dotfiles/bash_custom/util.bash
 source ~/dotfiles/.local.bash
 
-function colcon-source {
-    source $COLCON_ROOT/install/setup.bash
-}
-
 function ros1-mode () {
     source /opt/ros/melodic/setup.bash
-    source $COLCON_ROOT/install/setup.bash
+    # source $COLCON_ROOT/install/setup.bash
     source `catkin locate --shell-verbs`
     export ROSCONSOLE_FORMAT='[${severity}] [${node}] [${function}] [${line}] [${time}]:${message}'
 }
