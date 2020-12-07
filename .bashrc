@@ -79,8 +79,7 @@ function colcon-source {
 
 function ros1-mode () {
     source /opt/ros/melodic/setup.bash
-    # COLCON_ROOT=$HOME/autoware-proj/autoware.proj.jpntaxi
-    COLCON_ROOT=$HOME/autoware-proj/autoware.proj.eva
+    source $COLCON_ROOT/install/setup.bash
     source `catkin locate --shell-verbs`
     export ROSCONSOLE_FORMAT='[${severity}] [${node}] [${function}] [${line}] [${time}]:${message}'
 }
@@ -112,3 +111,12 @@ export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
 # export PATH=$CUDA_PATH/bin:$PATH
 # export CPATH=$CUDA_PATH/include:$CPATH
 # export C_INCLUDE_PATH=$CUDA_PATH/include:$C_INCLUDE_PATH
+
+export LIVOX_FRONT_CENTER_ID=1HDDH1200100411
+export LIVOX_FRONT_LEFT_ID=1HDDH1200106071
+export LIVOX_FRONT_RIGHT_ID=1HDDH1200101671
+
+# export VEHICLE_ID=P_EVAGC_CANDIDATE1
+# export VEHICLE_ID=yea_GCpre001
+# export VEHICLE_ID=1089
+# export VEHICLE_ID=4941
