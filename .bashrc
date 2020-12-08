@@ -69,14 +69,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
-source ~/dotfiles/.local.bash
-source ~/dotfiles/bash_custom/vcs.bash
-source ~/dotfiles/bash_custom/ros.bash
-source ~/dotfiles/bash_custom/util.bash
-
 function ros1-mode () {
     source /opt/ros/melodic/setup.bash
-    # source $COLCON_ROOT/install/setup.bash
     source `catkin locate --shell-verbs`
     export ROSCONSOLE_FORMAT='[${severity}] [${node}] [${function}] [${line}] [${time}]:${message}'
 }
@@ -99,6 +93,11 @@ function clang-format-file () {
 }
 
 ros1-mode
+source ~/dotfiles/.local.bash
+source ~/dotfiles/bash_custom/vcs.bash
+source ~/dotfiles/bash_custom/ros.bash
+source ~/dotfiles/bash_custom/util.bash
+
 # ros2-mode
 
 export PATH=~/.local/bin:$PATH

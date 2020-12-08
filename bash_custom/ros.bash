@@ -1,10 +1,3 @@
-function _colcon-source_complete()
-{
-  local cur prev
-  _get_comp_words_by_ref -n : cur prev
-  COMPREPLY=( $(compgen -W "${WORKSPACES}" -- "${cur}") )
-}
-
 function ros-params-get () {
     for i in `rosparam list | ag $1 | xargs`; do echo "${i}: " `rosparam get "${i}"`; done
 }
@@ -32,10 +25,16 @@ function ros-typed-topic () {
     done
 }
 
+function _colcon-source_complete()
+{
+  local cur prev
+  _get_comp_words_by_ref -n : cur prev
+  COMPREPLY=( $(compgen -W "${WORKSPACES}" -- "${cur}") )
+}
+
 function colcon-source () {
     if [ $# != 1 ]; then
         set-root
-        return 1
     else
         set-root $1
     fi
@@ -45,9 +44,9 @@ function colcon-source () {
 complete -F _colcon-source_complete colcon-source
 
 function cl () {
-    if [ $# != 1 ]; then
+    if [ $# == 0 ]; then
         export COLCON_ROOT=${HOME}/autoware-proj/autoware.proj
-        return 1
+        return -1
     fi
 
     if [ $1 == "b" ]; then
@@ -67,13 +66,19 @@ function cl () {
             cd $path
         fi
     elif  [ $1 == "cd" ]; then
-        local prefix path str arr
-        prefix=${2%/}
+        local prefix path str arr rest pkgpath
+        prefix=`echo "${2%/}" | cut -d "/" -f 1`
+        if [ `echo ${2} | grep "/"` ]; then
+            rest=`echo "${2%/}" | cut -d "/" -f2-`
+        else
+            rest=""
+        fi
         if [ $prefix ]; then
             path=`roscd ${prefix} && pwd`
             str=`cat $path/cmake/${prefix}Config.cmake | grep src | xargs`
             arr=(${str// / })
-            cd ${arr[1]%")"}
+            pkgpath=${arr[1]%")"}
+            cd $pkgpath/$rest
         else
             cd $COLCON_ROOT
         fi
