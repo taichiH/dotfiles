@@ -68,7 +68,7 @@ function cl () {
     elif  [ $1 == "cd" ]; then
         local prefix path str arr rest pkgpath
         prefix=`echo "${2%/}" | cut -d "/" -f 1`
-        if [ `echo ${2} | grep "/"` ]; then
+        if [ `echo ${2%/} | grep "/"` ]; then
             rest=`echo "${2%/}" | cut -d "/" -f2-`
         else
             rest=""
