@@ -69,15 +69,32 @@ if ! shopt -oq posix; then
   fi
 fi
 
-function ros1-mode () {
-    source /opt/ros/melodic/setup.bash
-    source `catkin locate --shell-verbs`
+function noetic-mode () {
+    source /opt/ros/noetic/setup.bash
     export ROSCONSOLE_FORMAT='[${severity}] [${node}] [${function}] [${line}] [${time}]:${message}'
+    # source ~/dotfiles/.local.bash
+    # source ~/dotfiles/bash_custom/vcs.bash
+    # source ~/dotfiles/bash_custom/ros.bash
+    # source ~/dotfiles/bash_custom/util.bash
 }
 
-function ros2-mode () {
-    source /opt/ros/dashing/setup.bash
-    source ~/autoware-auto/AutowareAuto/install/setup.bash
+function ros2-setup () {
+    source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+    export RCUTILS_COLORIZED_OUTPUT=1
+    export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    # export CYCLONEDDS_URI=file:///opt/autoware/cyclonedds_config.xml
+    export ROS_DOMAIN_ID=100
+    export RCUTILS_CONSOLE_OUTPUT_FORMAT="[{severity} {time}] [{name}]: {message} ({function_name}() :{line_number})"
+}
+
+function foxy-mode () {
+    source /opt/ros/foxy/setup.bash
+    ros2-setup
+}
+
+function galactic-mode () {
+    source /opt/ros/galactic/setup.bash
+    ros2-setup
 }
 
 function tvm-mode () {
@@ -86,20 +103,24 @@ function tvm-mode () {
 }
 
 function clang-format-dir () {
-    find . -name '*.h' -or -name '*.hpp' -or -name '*.cpp' | xargs clang-format-6.0 -i -style=file $1
+    find . -name '*.h' -or -name '*.hpp' -or -name '*.cpp' | xargs clang-format-12 -i -style=file $1
 }
 function clang-format-file () {
-    clang-format-6.0 -i -style=file $1
+    clang-format-12 -i -style=file $1
 }
 
-ros1-mode
-source ~/dotfiles/.local.bash
-source ~/dotfiles/bash_custom/vcs.bash
-source ~/dotfiles/bash_custom/ros.bash
-source ~/dotfiles/bash_custom/util.bash
+function pep8-ros2 () {
+    autopep8 $1 -r --in-place --max-line-length 99
+}
 
-# ros2-mode
+EDITOR=emacs
 
 export PATH=~/.local/bin:$PATH
 export PATH="/usr/local/cuda/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="/usr/local/libtorch/lib:$LD_LIBRARY_PATH"
+
+galactic-mode
+
+# for vtune-gui
+export PATH="${PATH}:/opt/intel/oneapi/vtune/2021.7.1/bin64"

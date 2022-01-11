@@ -432,3 +432,5 @@ This function also returns nil meaning don't specify the indentation."
    (message (concat "Saved and ran clang-format on " buffer-file-name))
    (revert-buffer t t t)
 ))
+
+(setq gdb-many-windows t)
